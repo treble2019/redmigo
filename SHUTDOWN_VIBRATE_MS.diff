@@ -1,0 +1,13 @@
+diff --git a/services/core/java/com/android/server/power/ShutdownThread.java b/services/core/java/com/android/server/power/ShutdownThread.java
+index 0a6b38f..4fcbacf 100644
+--- a/services/core/java/com/android/server/power/ShutdownThread.java
++++ b/services/core/java/com/android/server/power/ShutdownThread.java
+@@ -75,7 +75,7 @@ public final class ShutdownThread extends Thread {
+     private static final int MOUNT_SERVICE_STOP_PERCENT = 20;
+ 
+     // length of vibration before shutting down
+-    private static final int SHUTDOWN_VIBRATE_MS = 500;
++    private static final int SHUTDOWN_VIBRATE_MS = 5;
+ 
+     // state tracking
+     private static final Object sIsStartedGuard = new Object();
