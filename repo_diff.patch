@@ -1,0 +1,200 @@
+
+project build/make/
+diff --git a/target/product/go_defaults_common.mk b/target/product/go_defaults_common.mk
+index aee7f47..43a3950 100644
+--- a/target/product/go_defaults_common.mk
++++ b/target/product/go_defaults_common.mk
+@@ -19,7 +19,7 @@
+ 
+ # Set lowram options and enable traced by default
+ PRODUCT_PROPERTY_OVERRIDES += \
+-     ro.config.low_ram=true \
++     ro.config.low_ram=false \
+      persist.traced.enable=1 \
+ 
+ # Speed profile services and wifi-service to reduce RAM and storage.
+
+project device/phh/treble/
+diff --git a/phhgsi_arm64_a/BoardConfig.mk b/phhgsi_arm64_a/BoardConfig.mk
+deleted file mode 100644
+index c9bc831..0000000
+--- a/phhgsi_arm64_a/BoardConfig.mk
++++ /dev/null
+@@ -1,7 +0,0 @@
+-include build/make/target/board/generic_arm64_ab/BoardConfig.mk
+-include device/phh/treble/board-base.mk
+-
+-ifeq ($(BOARD_SYSTEMIMAGE_PARTITION_RESERVED_SIZE),)
+-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2080374784
+-endif
+-BOARD_SYSTEMIMAGE_AS_SYSTEM := true
+diff --git a/phhgsi_arm64_ab/BoardConfig.mk b/phhgsi_arm64_ab/BoardConfig.mk
+deleted file mode 100644
+index be9333e..0000000
+--- a/phhgsi_arm64_ab/BoardConfig.mk
++++ /dev/null
+@@ -1,8 +0,0 @@
+-include build/make/target/board/generic_arm64_ab/BoardConfig.mk
+-include device/phh/treble/board-base.mk
+-
+-ifeq ($(BOARD_SYSTEMIMAGE_PARTITION_RESERVED_SIZE),)
+-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2147483648
+-endif
+-
+-BUILD_BROKEN_PHONY_TARGETS := true
+
+project packages/apps/Camera2/
+diff --git a/src/com/android/camera/exif/ExifOutputStream.java b/src/com/android/camera/exif/ExifOutputStream.java
+index 3c7ed7d..e4308bd 100644
+--- a/src/com/android/camera/exif/ExifOutputStream.java
++++ b/src/com/android/camera/exif/ExifOutputStream.java
+@@ -149,7 +149,7 @@ class ExifOutputStream extends FilterOutputStream {
+                     out.write(mBuffer.array(), 0, 2);
+                     mState = STATE_FRAME_HEADER;
+                     mBuffer.rewind();
+-                    writeExifData();
++                    //writeExifData();
+                     break;
+                 case STATE_FRAME_HEADER:
+                     // We ignore the APP1 segment and copy all other segments
+
+project packages/apps/DocumentsUI/
+diff --git a/AndroidManifest.xml b/AndroidManifest.xml
+index a2b01f3..66fdf4c 100644
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -30,10 +30,11 @@
+     <application
+         android:name=".DocumentsApplication"
+         android:label="@string/app_label"
+-        android:icon="@drawable/app_icon"
++        android:icon="@mipmap/ic_launcher"
+         android:supportsRtl="true"
+         android:allowBackup="true"
+         android:backupAgent=".prefs.BackupAgent"
++        android:appCategory="productivity"
+         android:fullBackupOnly="false">
+ 
+         <meta-data
+diff --git a/res/mipmap-anydpi/ic_app_icon.xml b/res/mipmap-anydpi/ic_app_icon.xml
+deleted file mode 100644
+index cd4fa58..0000000
+--- a/res/mipmap-anydpi/ic_app_icon.xml
++++ /dev/null
+@@ -1,5 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+-    <background android:drawable="@color/app_icon_background"/>
+-    <foreground android:drawable="@mipmap/ic_launcher_icon_foreground"/>
+-</adaptive-icon>
+diff --git a/res/mipmap-anydpi/ic_launcher_downloads.xml b/res/mipmap-anydpi/ic_launcher_downloads.xml
+deleted file mode 100644
+index 296c9d7..0000000
+--- a/res/mipmap-anydpi/ic_launcher_downloads.xml
++++ /dev/null
+@@ -1,5 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+-    <background android:drawable="@color/downloads_icon_background"/>
+-    <foreground android:drawable="@mipmap/ic_launcher_downloads_foreground"/>
+-</adaptive-icon>
+diff --git a/res/mipmap-hdpi/ic_launcher_downloads_foreground.png b/res/mipmap-hdpi/ic_launcher_downloads_foreground.png
+deleted file mode 100644
+index d27d526..0000000
+Binary files a/res/mipmap-hdpi/ic_launcher_downloads_foreground.png and /dev/null differ
+diff --git a/res/mipmap-hdpi/ic_launcher_icon_foreground.png b/res/mipmap-hdpi/ic_launcher_icon_foreground.png
+deleted file mode 100644
+index 992c44e..0000000
+Binary files a/res/mipmap-hdpi/ic_launcher_icon_foreground.png and /dev/null differ
+diff --git a/res/mipmap-mdpi/ic_launcher_downloads_foreground.png b/res/mipmap-mdpi/ic_launcher_downloads_foreground.png
+deleted file mode 100644
+index a462402..0000000
+Binary files a/res/mipmap-mdpi/ic_launcher_downloads_foreground.png and /dev/null differ
+diff --git a/res/mipmap-mdpi/ic_launcher_icon_foreground.png b/res/mipmap-mdpi/ic_launcher_icon_foreground.png
+deleted file mode 100644
+index 4639ff0..0000000
+Binary files a/res/mipmap-mdpi/ic_launcher_icon_foreground.png and /dev/null differ
+diff --git a/res/mipmap-xhdpi/ic_launcher_downloads_foreground.png b/res/mipmap-xhdpi/ic_launcher_downloads_foreground.png
+deleted file mode 100644
+index c637eb4..0000000
+Binary files a/res/mipmap-xhdpi/ic_launcher_downloads_foreground.png and /dev/null differ
+diff --git a/res/mipmap-xhdpi/ic_launcher_icon_foreground.png b/res/mipmap-xhdpi/ic_launcher_icon_foreground.png
+deleted file mode 100644
+index b992944..0000000
+Binary files a/res/mipmap-xhdpi/ic_launcher_icon_foreground.png and /dev/null differ
+diff --git a/res/mipmap-xxhdpi/ic_launcher_downloads_foreground.png b/res/mipmap-xxhdpi/ic_launcher_downloads_foreground.png
+deleted file mode 100644
+index 6f31eef..0000000
+Binary files a/res/mipmap-xxhdpi/ic_launcher_downloads_foreground.png and /dev/null differ
+diff --git a/res/mipmap-xxhdpi/ic_launcher_icon_foreground.png b/res/mipmap-xxhdpi/ic_launcher_icon_foreground.png
+deleted file mode 100644
+index ae44b2f..0000000
+Binary files a/res/mipmap-xxhdpi/ic_launcher_icon_foreground.png and /dev/null differ
+diff --git a/res/mipmap-xxxhdpi/ic_launcher_downloads_foreground.png b/res/mipmap-xxxhdpi/ic_launcher_downloads_foreground.png
+deleted file mode 100644
+index 4b033db..0000000
+Binary files a/res/mipmap-xxxhdpi/ic_launcher_downloads_foreground.png and /dev/null differ
+diff --git a/res/mipmap-xxxhdpi/ic_launcher_icon_foreground.png b/res/mipmap-xxxhdpi/ic_launcher_icon_foreground.png
+deleted file mode 100644
+index 85150eb..0000000
+Binary files a/res/mipmap-xxxhdpi/ic_launcher_icon_foreground.png and /dev/null differ
+diff --git a/res/values/drawables.xml b/res/values/drawables.xml
+index c0575e0..3172b8e 100644
+--- a/res/values/drawables.xml
++++ b/res/values/drawables.xml
+@@ -15,6 +15,6 @@
+ -->
+ 
+ <resources>
+-    <item name="app_icon" type="drawable">@mipmap/ic_app_icon</item>
+-    <item name="launcher_icon" type="drawable">@mipmap/ic_app_icon</item>
+-</resources>
+\ No newline at end of file
++    <item name="app_icon" type="drawable">@mipmap/ic_launcher</item>
++    <item name="launcher_icon" type="drawable">@mipmap/ic_launcher</item>
++</resources>
+
+project packages/apps/Gallery2/
+diff --git a/gallerycommon/src/com/android/gallery3d/exif/ExifOutputStream.java b/gallerycommon/src/com/android/gallery3d/exif/ExifOutputStream.java
+index 7ca05f2..f06700d 100644
+--- a/gallerycommon/src/com/android/gallery3d/exif/ExifOutputStream.java
++++ b/gallerycommon/src/com/android/gallery3d/exif/ExifOutputStream.java
+@@ -149,7 +149,7 @@ class ExifOutputStream extends FilterOutputStream {
+                     out.write(mBuffer.array(), 0, 2);
+                     mState = STATE_FRAME_HEADER;
+                     mBuffer.rewind();
+-                    writeExifData();
++                    //writeExifData();
+                     break;
+                 case STATE_FRAME_HEADER:
+                     // We ignore the APP1 segment and copy all other segments
+
+project packages/apps/Launcher3/
+diff --git a/src/com/android/launcher3/config/BaseFlags.java b/src/com/android/launcher3/config/BaseFlags.java
+index 025087b..d1c21a6 100644
+--- a/src/com/android/launcher3/config/BaseFlags.java
++++ b/src/com/android/launcher3/config/BaseFlags.java
+@@ -66,7 +66,7 @@ public abstract class BaseFlags {
+                     "Adds a promise icon to the home screen for new install sessions.");
+ 
+     // Enable moving the QSB on the 0th screen of the workspace
+-    public static final boolean QSB_ON_FIRST_SCREEN = true;
++    public static final boolean QSB_ON_FIRST_SCREEN = false;
+ 
+     public static final TogglableFlag EXAMPLE_FLAG = new TogglableFlag("EXAMPLE_FLAG", true,
+             "An example flag that doesn't do anything. Useful for testing");
+
+project packages/inputmethods/LatinIME/
+diff --git a/java/res/values/config-per-form-factor.xml b/java/res/values/config-per-form-factor.xml
+index 67fc751..1bbf164 100644
+--- a/java/res/values/config-per-form-factor.xml
++++ b/java/res/values/config-per-form-factor.xml
+@@ -24,7 +24,7 @@
+     <!-- Whether or not Popup on key press is enabled by default -->
+     <bool name="config_default_key_preview_popup">true</bool>
+     <bool name="config_default_sound_enabled">false</bool>
+-    <bool name="config_enable_show_voice_key_option">true</bool>
++    <bool name="config_enable_show_voice_key_option">false</bool>
+     <bool name="config_key_selection_by_dragging_finger">true</bool>
+     <!-- Showing more keys keyboard, just above the touched point if true, aligned to the key if
+          false -->
